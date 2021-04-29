@@ -1,0 +1,80 @@
+<style type="text/css">
+header('Content-type: text/css;');
+    .box{
+        border: 1px solid #aaa; /*getting border*/
+        border-radius: 4px; /*rounded border*/
+        color: #000; /*text color*/
+    }
+td {
+font-family: Arial, Helvetica, sans-serif;
+font-size: .7em;
+border: 1px solid #DDD;
+}
+</style>
+<?php
+ 
+session_start();// <!-- php session  -->
+$_SESSION["name"] = $_GET['Selectedgame'];// <!-- gets game name  -->
+
+$servername = "localhost";// <!-- password for database  -->
+$username = "nicka120_game";
+$password = "Andrews";
+$dbname = "nicka120_game";
+
+
+// Create connection <!-- connection to database  -->
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+$name=$_GET['Selectedgame']; //<!-- gets name from url  -->
+
+echo $sname;
+$sql = "SELECT *   FROM Reviews Where Gname = '$name' ";// <!-- gets name from database  -->
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) { //<!-- goes through data bases looking for the game  -->
+    // output data of each row
+    
+    while($row = $result->fetch_assoc()) {
+        echo '<div style="border: 1px solid #aaa;"><br>';
+        echo "id: ". $row["ID"]. " Rating: " . $row["Rating"] . "<br>";
+        echo " <tr><td><br>" . $row["Review"] . "</td></tr><br><br>";
+        
+    }
+} else {
+    echo "0 results";
+}
+
+?>
+
+
+
+<html>
+<script src="pic.js">
+<link rel="stylesheet" type="text/css" href="game.css">
+function getpic($_GET['Selectedgame']); <!-- test  -->
+</script>
+<body>
+<p id=pic></p>
+
+
+<p id=game > rate this game </p>
+<form action="Review.php" method="get" id=basic > <!-- radio button for person to click value  -->
+  <input type="radio" name="Rating" value="0"> 0
+  <input type="radio" name="Rating" value="1"> 1
+  <input type="radio" name="Rating" value="2"> 2
+  <input type="radio" name="Rating" value="3"> 3
+  <input type="radio" name="Rating" value="4"> 4
+  <input type="radio" name="Rating" value="5"> 5 <br>
+<textarea rows="8" cols="50" id="UserInput" input type="text" name="UserInput">
+Write a review for this game.
+</textarea>
+<input type="submit" value="submit" >
+
+</form>
+
+</body>
+</html>

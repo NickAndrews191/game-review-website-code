@@ -1,0 +1,69 @@
+<?php
+session_start(); // starts the session
+
+$servername = "localhost"; // password for database
+$username = "nicka120_game";
+$password = "Andrews";
+$dbname = "nicka120_game";
+
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+
+
+$value=$_GET['Rating']; // gets rating from url
+$name= $_SESSION["name"]; // gets name from session
+$userinput=$_GET['UserInput'];
+
+echo $value; 
+echo $name;
+
+// inserts data into database
+$sql = "INSERT INTO Reviews  (Gname, Rating, Review) 
+VALUES ('$name',$value, '$userinput')";
+
+if ($conn->query($sql) === TRUE) {   // testing the connesction
+    echo "New record created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+?>
+
+<html>
+<style>
+body {
+background-image: url("Background/Forge.jpg");
+background-repeat: no-repeat, repeat;
+ background-color: black;
+}
+
+#basic {
+  position: relative;
+  color: gray;
+  top: 30px;
+  left: 280px;
+  font-size: 30px;
+  font:  italic bold 24px/60px Georgia, serif;
+}
+
+#ad {
+  position: relative;
+  top: 420px;
+  left: 600px;
+  font-size: 30px;
+  font:  italic bold 24px/60px Georgia, serif;
+}
+
+
+</style>
+<body>
+<p id=basic> Thank you for reviewing this game</p>
+<a id=ad href="http://nicka1.sgedu.site/Gamereview.html">Homepage</a> // link to the home page
+
+</body>
+</html>
